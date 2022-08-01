@@ -1,10 +1,13 @@
-package com.undal;
+package com.undal.resource;
 
+import com.undal.*;
+import com.undal.entity.UrlShortener;
+import com.undal.exception.UrlShortenerException;
+import com.undal.service.UrlShortenerService;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class UrlShortenerResource implements UrlShortenerApi {

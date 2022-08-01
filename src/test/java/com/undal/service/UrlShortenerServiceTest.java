@@ -1,4 +1,4 @@
-package com.undal;
+package com.undal.service;
 
 import com.undal.entity.UrlShortener;
 import com.undal.exception.UrlShortenerException;

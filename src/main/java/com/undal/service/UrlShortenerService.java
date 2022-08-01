@@ -1,9 +1,13 @@
-package com.undal;
+package com.undal.service;
 
+import com.undal.entity.UrlShortener;
+import com.undal.entity.UrlShortenerRepository;
+import com.undal.exception.UrlShortenerException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,23 +20,21 @@ public class UrlShortenerService {
     public String ALIAS_ALREADY_EXISTS;
     @ConfigProperty(name="exception.message.alias_null")
     public String ALIAS_NULL;
-    private final List<UrlShortener> urlShortenerList = new ArrayList<>();
 
+    @Inject
+    UrlShortenerRepository urlShortenerRepository;
+
+    @Transactional
     public List<UrlShortener> createUrlShortener(UrlShortener urlShortener){
         if(urlShortener == null) {
             throw new UrlShortenerException(URL_NOT_CREATED);
         }
-        long alias = urlShortenerList
-                .stream()
-                .filter(url ->
-                        url.getAlias().equals(urlShortener.getAlias())
-                )
-                .count();
+        long alias = urlShortenerRepository.find("alias", urlShortener.getAlias()).count();
         if(alias > 0) {
             throw new UrlShortenerException(ALIAS_ALREADY_EXISTS);
         }
-        urlShortenerList.add(urlShortener);
-        return urlShortenerList;
+       urlShortenerRepository.persist(urlShortener);
+        return urlShortenerRepository.listAll();
     }
 
     public Optional<UrlShortener> getUrlShortener(String alias){
@@ -40,9 +42,6 @@ public class UrlShortenerService {
             throw new UrlShortenerException(ALIAS_NULL);
         }
 
-        return urlShortenerList
-                .stream()
-                .filter(url -> url.getAlias().equals(alias))
-                .findFirst();
+        return urlShortenerRepository.find("alias", alias).stream().findFirst();
     }
 }

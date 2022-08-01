@@ -1,4 +1,4 @@
-package com.undal;
+package com.undal.resource;
 
 import java.net.URI;
 

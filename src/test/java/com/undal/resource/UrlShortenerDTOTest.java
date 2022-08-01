@@ -1,4 +1,4 @@
-package com.undal;
+package com.undal.resource;
 
 import com.undal.resource.UrlShortenerDTO;
 import org.junit.jupiter.api.BeforeEach;

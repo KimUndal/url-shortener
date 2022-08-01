@@ -1,2 +1,10 @@
-package com.undal.entity;public class UrlShortenerRepository {
+package com.undal.entity;
+
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class UrlShortenerRepository implements PanacheRepository<UrlShortener> {
+
 }
